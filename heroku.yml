@@ -3,4 +3,6 @@ build:
     worker: Dockerfile
 
 run:
-  worker: yarn start:prod
+  worker:
+    command:
+      -  yarn start:prod
