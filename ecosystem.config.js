@@ -1,7 +1,8 @@
 module.exports = {
   apps : [{
     name: 'tan-bot',
-    script: 'node dist/main.js',
+    cwd: './dist',
+    script: 'main.js',
     instances: 1,
     autorestart: true,
     watch: false,

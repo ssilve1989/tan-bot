@@ -25,7 +25,7 @@ export class ConfigService {
   }
 
   public sendTestInsults() {
-    return this.get('SEND_TEST_INSULT');
+    return this.get('SEND_TEST_INSULTS');
   }
 
   /**
