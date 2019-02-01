@@ -8,8 +8,7 @@ import { BotService } from '../bot/bot.service';
 @Injectable()
 export class InsultsService {
   private static TEST_CHANNEL = '540983043247177761';
-  // private static INSULTS_TIMER = 1000 * 60 * 60; // 1 hour
-  private static INSULTS_TIMER = 5000; // 1 hour
+  private static INSULTS_TIMER = 1000 * 60 * 60; // 1 hour
   private timer?: NodeJS.Timer;
   private logger = new Logger(InsultsService.name);
 
