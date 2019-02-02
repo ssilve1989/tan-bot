@@ -19,7 +19,7 @@ export class InsultsService {
     private readonly httpService: HttpService,
   ) {
     this.cron = new CronJob({
-      cronTime: '0 * * * * *',
+      cronTime: '0 0 * * * *',
       onTick: this.insultWorker.bind(this),
     });
   }
