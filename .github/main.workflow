@@ -1,5 +1,6 @@
 workflow "Main" {
   on = "push"
+  resolves = ["TEST"]
 }
 
 action "Install" {
@@ -11,4 +12,9 @@ action "Test" {
   needs = "Install"
   uses = "docker://node:latest"
   args = "test"
+}
+
+action "TEST" {
+  uses = "docker://node:latest"
+  runs = "yarn"
 }
