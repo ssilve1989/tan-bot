@@ -40,7 +40,7 @@ export class InsultsService {
       this.sendInsult(Channels.Developer_Things, Users.Northerr);
     }
     // Insult Tan!
-    // this.sendInsult(Channels.Chats, Users.Tan);
+    this.sendInsult(Channels.Chats, Users.Tan);
   }
 
   private async sendInsult(channelId: string, userId: string) {
