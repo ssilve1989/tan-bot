@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import Discord from 'discord.js';
 import getInsult from 'insults';
+import { CronJob } from 'cron';
 
 import { ConfigService } from '../config/config.service';
 import { BotService } from '../bot/bot.service';
@@ -9,25 +10,29 @@ import { BotService } from '../bot/bot.service';
 export class InsultsService {
   private static TEST_CHANNEL = '540983043247177761';
   private static INSULTS_TIMER = 1000 * 60 * 60; // 1 hour
+  private cron: CronJob;
   private timer?: NodeJS.Timer;
   private logger = new Logger(InsultsService.name);
 
   constructor(
     private readonly configService: ConfigService,
     private readonly botService: BotService,
-  ) {}
+  ) {
+    this.cron = new CronJob({
+      cronTime: '0 0 * * *',
+      onTick: this.sendInsult.bind(this),
+    });
+  }
 
   public start() {
-    this.timer = this.botService
-      .getBot()
-      .setInterval(() => this.startInsulting(), InsultsService.INSULTS_TIMER);
+    this.cron.start();
   }
 
   public stop() {
-    this.botService.getBot().clearInterval(this.timer!);
+    this.cron.stop();
   }
 
-  private startInsulting() {
+  private sendInsult() {
     if (this.configService.sendTestInsults()) {
       this.sendTestInsult();
     }
