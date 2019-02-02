@@ -1,6 +1,3 @@
-import Joi from 'joi';
-import fs from 'fs';
-import dotenv from 'dotenv';
 import { Logger } from '@nestjs/common';
 
 export interface EnvConfig {
@@ -8,17 +5,12 @@ export interface EnvConfig {
 }
 
 export class ConfigService {
-  private readonly envConfig: EnvConfig;
   private logger = new Logger(ConfigService.name);
 
-  constructor() {
-    const config = dotenv.parse(fs.readFileSync('.env'));
+  constructor() {}
 
-    this.envConfig = this.validateInput(config);
-  }
-
-  public get(key: string): string {
-    return this.envConfig[key];
+  public get(key: string) {
+    return process.env[key];
   }
 
   public getDiscordToken() {
@@ -33,21 +25,21 @@ export class ConfigService {
    * Ensures all needed variables are set, and returns the validated JavaScript object
    * including the applied default values.
    */
-  private validateInput(envConfig: EnvConfig): EnvConfig {
-    const envVarsSchema: Joi.ObjectSchema = Joi.object({
-      NODE_ENV: Joi.string()
-        .valid(['development', 'production', 'test', 'provision'])
-        .default('development'),
-      DISCORD_BOT_TOKEN: Joi.string().required(),
-      SEND_TEST_INSULTS: Joi.boolean().default(false),
-    });
+  // private validateInput(envConfig: EnvConfig): EnvConfig {
+  //   const envVarsSchema: Joi.ObjectSchema = Joi.object({
+  //     NODE_ENV: Joi.string()
+  //       .valid(['development', 'production', 'test', 'provision'])
+  //       .default('development'),
+  //     DISCORD_BOT_TOKEN: Joi.string().required(),
+  //     SEND_TEST_INSULTS: Joi.boolean().default(false),
+  //   });
 
-    const { error, value: validatedEnvConfig } = Joi.validate(envConfig, envVarsSchema);
+  //   const { error, value: validatedEnvConfig } = Joi.validate(envConfig, envVarsSchema);
 
-    if (error) {
-      throw new Error(`Config validation error: ${error.message}`);
-    }
+  //   if (error) {
+  //     throw new Error(`Config validation error: ${error.message}`);
+  //   }
 
-    return validatedEnvConfig;
-  }
+  //   return validatedEnvConfig;
+  // }
 }

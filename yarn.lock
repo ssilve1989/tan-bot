@@ -170,6 +170,13 @@
   resolved "https://registry.yarnpkg.com/@types/cron/-/cron-1.6.0.tgz#cafddc20eadc55fb6ae38352c85c106bed533271"
   integrity sha512-G9evfyFE5OlVtn4Opc99Y3fy0mCT/u8pm2NWOWM0jeeGPmUnJEjNGTpdrS+0IYaIeinentrKrRN9M+7JVZS83A==
 
+"@types/dotenv@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@types/dotenv/-/dotenv-6.1.0.tgz#fba2bfd1f28a46eadaa049f3313ebb89bdedfc53"
+  integrity sha512-gmbNb7V1LbJQA4MmH0hVFgqY1cyKsa6RvKC1Xrq0WBnZ0JuuvXKciXx/s8dN0LVXCJd8xO6wIaSFSyUIoGph9g==
+  dependencies:
+    "@types/node" "*"
+
 "@types/express-serve-static-core@*":
   version "4.16.1"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.16.1.tgz#35df7b302299a4ab138a643617bd44078e74d44e"
@@ -191,6 +198,11 @@
   version "23.3.13"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.13.tgz#c81484b6f4ca007bb09887ed15ecb3286d58f928"
   integrity sha512-ePl4l+7dLLmCucIwgQHAgjiepY++qcI6nb8eAwGNkB6OxmTe3Z9rQU3rSpomqu42PCCnlThZbOoxsf+qylJsLA==
+
+"@types/joi@^14.3.1":
+  version "14.3.1"
+  resolved "https://registry.yarnpkg.com/@types/joi/-/joi-14.3.1.tgz#1bc31b60a928da30cc206b1b4f88e13a48bffc79"
+  integrity sha512-1kAPyOBvPPQoWOV4b1qT2SRJrQbYY9kz6h5DV8fNgSW0+/Ma+aDLQDACISC1M982uWwjAgsMEVXdalA/+IhvaA==
 
 "@types/json5@^0.0.29":
   version "0.0.29"
