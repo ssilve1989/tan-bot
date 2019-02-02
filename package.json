@@ -11,7 +11,7 @@
     "start:dev": "nodemon",
     "start:debug": "nodemon --config nodemon-debug.json",
     "prestart:prod": "rimraf dist && yarn build",
-    "postinstall": "yarn build && cp .env dist",
+    "postinstall": "yarn build",
     "start:prod": "pm2-runtime start ecosystem.config.js --env production",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
