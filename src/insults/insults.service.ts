@@ -46,10 +46,9 @@ export class InsultsService {
   private async sendInsult(channelId: string, userId: string) {
     const bot = this.botService.getBot();
     const channel = bot.channels.get(channelId);
-    const user = bot.users.get(userId);
 
-    if (!channel || !user) {
-      this.logger.error(`Invalid channelId/userId: ${channelId}/${userId}`);
+    if (!channel) {
+      this.logger.error(`Invalid channelId: ${channelId}`);
       return;
     }
 

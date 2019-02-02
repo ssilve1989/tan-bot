@@ -7,7 +7,15 @@ export interface EnvConfig {
 export class ConfigService {
   private logger = new Logger(ConfigService.name);
 
-  constructor() {}
+  constructor() {
+    this.logger.log('ConfigService loaded with');
+    this.logger.log(
+      JSON.stringify({
+        DISCORD_BOT_TOKEN: this.getDiscordToken(),
+        SEND_TEST_INSULTS: this.sendTestInsults(),
+      }),
+    );
+  }
 
   public get(key: string) {
     return process.env[key];
@@ -18,7 +26,7 @@ export class ConfigService {
   }
 
   public sendTestInsults() {
-    return this.get('SEND_TEST_INSULTS');
+    return this.get('SEND_TEST_INSULTS') === 'true';
   }
 
   /**
