@@ -1,52 +1,70 @@
-import { Injectable, Logger } from '@nestjs/common';
-import Discord from 'discord.js';
-import getInsult from 'insults';
+import { Injectable, Logger, HttpService } from '@nestjs/common';
+import { GroupDMChannel, Channel, User } from 'discord.js';
 import { CronJob } from 'cron';
 
 import { ConfigService } from '../config/config.service';
 import { BotService } from '../bot/bot.service';
+import { Channels } from '../consts/channels';
+import { Users } from '../consts/users';
 
 @Injectable()
 export class InsultsService {
-  private static TEST_CHANNEL = '540983043247177761';
-  private static INSULTS_TIMER = 1000 * 60 * 60; // 1 hour
+  private static INSULT_URL = 'https://evilinsult.com/generate_insult.php?lang=en&type=json';
   private cron: CronJob;
-  private timer?: NodeJS.Timer;
   private logger = new Logger(InsultsService.name);
 
   constructor(
     private readonly configService: ConfigService,
     private readonly botService: BotService,
+    private readonly httpService: HttpService,
   ) {
     this.cron = new CronJob({
-      cronTime: '0 0 * * *',
-      onTick: this.sendInsult.bind(this),
+      cronTime: '0 * * * * *',
+      onTick: this.insultWorker.bind(this),
     });
   }
 
   public start() {
+    this.logger.log('Starting insult interval');
+    this.logger.log(`Next Insult scheduled for: ${this.cron.nextDates()}`);
     this.cron.start();
   }
 
   public stop() {
+    this.logger.log('Stopping insult interval');
     this.cron.stop();
   }
 
-  private sendInsult() {
+  private async insultWorker() {
     if (this.configService.sendTestInsults()) {
-      this.sendTestInsult();
+      this.sendInsult(Channels.Developer_Things, Users.Northerr);
     }
-    // TODO: other things
+    // Insult Tan!
+    this.sendInsult(Channels.Chats, Users.Tan);
   }
 
-  private sendTestInsult() {
+  private async sendInsult(channelId: string, userId: string) {
     const bot = this.botService.getBot();
-    const channel: Discord.Channel | undefined = bot.channels.get(InsultsService.TEST_CHANNEL);
-    if (!channel) {
-      this.logger.log('Test channel not found');
+    const channel = bot.channels.get(channelId);
+    const user = bot.users.get(userId);
+
+    if (!channel || !user) {
+      this.logger.error(`Invalid channelId/userId: ${channelId}/${userId}`);
       return;
     }
 
-    (channel as any).send(getInsult());
+    try {
+      const insult = await this.getInsult();
+      (channel as GroupDMChannel).send(`<@${userId}> ${insult}`);
+    } catch (e) {
+      this.logger.error(`Error sending insult: ${e}`);
+    }
+  }
+
+  private async getInsult() {
+    const {
+      data: { insult },
+    } = await this.httpService.post(InsultsService.INSULT_URL).toPromise();
+    return insult;
   }
 }

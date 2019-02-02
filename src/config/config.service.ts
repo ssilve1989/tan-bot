@@ -11,8 +11,9 @@ export class ConfigService {
   private readonly envConfig: EnvConfig;
   private logger = new Logger(ConfigService.name);
 
-  constructor(filePath: string) {
-    const config = dotenv.parse(fs.readFileSync(filePath));
+  constructor() {
+    const config = dotenv.parse(fs.readFileSync('.env'));
+
     this.envConfig = this.validateInput(config);
   }
 
@@ -38,7 +39,7 @@ export class ConfigService {
         .valid(['development', 'production', 'test', 'provision'])
         .default('development'),
       DISCORD_BOT_TOKEN: Joi.string().required(),
-      SEND_TEST_INSULT: Joi.boolean().default(false),
+      SEND_TEST_INSULTS: Joi.boolean().default(false),
     });
 
     const { error, value: validatedEnvConfig } = Joi.validate(envConfig, envVarsSchema);
