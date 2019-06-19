@@ -1,9 +1,10 @@
 import { Module, OnModuleInit, OnModuleDestroy, HttpModule } from '@nestjs/common';
 import { BotModule } from '../bot/bot.module';
 import { InsultsService } from './insults.service';
+import { ConfigModule } from '../config/config.module';
 
 @Module({
-  imports: [BotModule, HttpModule],
+  imports: [ConfigModule, BotModule, HttpModule],
   providers: [InsultsService],
 })
 export class InsultsModule implements OnModuleInit, OnModuleDestroy {
