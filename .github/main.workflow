@@ -4,12 +4,12 @@ workflow "Main" {
 }
 
 action "Install" {
-  uses = "docker://node:latest"
+  uses = "docker://node:10"
   runs = "yarn"
 }
 
 action "Test" {
-  uses = "docker://node:latest"
+  uses = "docker://node:10"
   needs = ["Install"]
   runs = "yarn test"
 }
